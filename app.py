@@ -38,9 +38,15 @@ def register():
     return render_template('register.html', 
                            title= 'register', form=form)
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     form= LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == "python@gmail.com" and form.password.data =="password":
+            flash(f'You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash(f'Log in unsuccessful, please check email and passsword', 'danger')
     return render_template('login.html', 
                            title= 'login', form=form)
 
